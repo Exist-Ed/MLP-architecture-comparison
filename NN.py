@@ -18,16 +18,16 @@ class MLP:
             (output_layer_size, hidden_layer_size))
         self.T_output = np.random.random(output_layer_size).reshape((output_layer_size, 1))
 
-    def lin_foo(self, S):
+    def lin_func(self, S):
         return S
 
-    def d_lin_foo(self, S):
+    def d_lin_func(self, S):
         return 1
 
-    def sigm_foo(self, S):
+    def sigm_func(self, S):
         return 1 / (1 + np.exp(-S))
 
-    def d_sigm_foo(self, S):
+    def d_sigm_func(self, S):
         return (1 - S) * S
 
     def predict(self, X):
@@ -35,11 +35,11 @@ class MLP:
 
         Y_hidden = self.W_hidden @ X
         Y_hidden -= self.T_hidden
-        Y_hidden = np.apply_along_axis(self.sigm_foo, 0, Y_hidden)
+        Y_hidden = np.apply_along_axis(self.sigm_func, 0, Y_hidden)
 
         Y_output = self.W_output @ Y_hidden
         Y_output -= self.T_output
-        Y_output = np.apply_along_axis(self.lin_foo, 0, Y_output)
+        Y_output = np.apply_along_axis(self.lin_func, 0, Y_output)
 
         return np.ravel(Y_output)
 
@@ -54,11 +54,11 @@ class MLP:
 
                 Y_hidden = self.W_hidden @ input_x
                 Y_hidden -= self.T_hidden
-                Y_hidden = np.apply_along_axis(self.sigm_foo, 0, Y_hidden)
+                Y_hidden = np.apply_along_axis(self.sigm_func, 0, Y_hidden)
 
                 Y_output = self.W_output @ Y_hidden
                 Y_output -= self.T_output
-                Y_output = np.apply_along_axis(self.lin_foo, 0, Y_output)
+                Y_output = np.apply_along_axis(self.lin_func, 0, Y_output)
 
                 err.append(np.sum((Y_output.T - X[i]) ** 2))
 
@@ -68,9 +68,9 @@ class MLP:
                 self.W_output -= self.alpha * (e_output @ Y_hidden.T)
                 self.T_output += self.alpha * e_output
 
-                self.W_hidden -= (self.alpha * e_hidden * np.apply_along_axis(self.d_sigm_foo, 0,
+                self.W_hidden -= (self.alpha * e_hidden * np.apply_along_axis(self.d_sigm_func, 0,
                                                                               Y_hidden)) @ input_x.T
-                self.T_hidden += self.alpha * e_hidden * np.apply_along_axis(self.d_sigm_foo, 0, Y_hidden)
+                self.T_hidden += self.alpha * e_hidden * np.apply_along_axis(self.d_sigm_func, 0, Y_hidden)
 
             current_error = float(0.5 * sum(err))
             print(current_error)

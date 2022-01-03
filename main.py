@@ -23,13 +23,12 @@ hidden_layer_size = 12
 
 if __name__ == '__main__':
     learn_ds, valid_ds, test_ds = ds.GetDataSet((dx, dy, dz), 1500, learn_size=0.5, valid_size=0.5, test_size=0, h=0.1)
-
     v.ds_visual(learn_ds[:, 0], learn_ds[:, 1], learn_ds[:, 2])
 
     mlp0 = NN.MLP(input_layer_size_0, hidden_layer_size, alpha=0.05, Em=0.05)
-    mlp0.fit(learn_ds)
-
     mlp1 = NN.MLP(input_layer_size_1, hidden_layer_size, alpha=0.05, Em=0.05)
+
+    mlp0.fit(learn_ds)
     mlp1.fit(learn_ds)
 
     answers0 = []
