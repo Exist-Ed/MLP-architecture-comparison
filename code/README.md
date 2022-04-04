@@ -1,9 +1,9 @@
-# MLP-regression
+# MLP-architecture-comparison
 
 __USAGE:__ _python main.py_ <br>
 
 Trains two multilayer perceptrons with the specified architectures on a data set generated on the basis of the passed
-system of first-order differential equations and compares them according to the correctness
+system of three first-order differential equations and compares them according to the correctness
 of the prediction of values.
 
 # Contents of the code files
