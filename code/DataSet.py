@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def GetDataSet(dxyz: tuple, size, h=0.01, learn_size=0.8, valid_size=0.1, test_size=0.1):
+def GetDataSet(dxyz: tuple, size: int, h=0.01, learn_size=0.8, valid_size=0.1, test_size=0.1):
     assert learn_size + valid_size + test_size == 1
 
     data = [(0.1, 0.1, 0.1)]

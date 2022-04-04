@@ -3,30 +3,16 @@ import numpy as np
 import visualization as v
 import DataSet as ds
 import NN
+from config import *  # configuration values for dataset and NLP's
 
 
-def dx(x, y, z):
-    return y + z
-
-
-def dy(x, y, z):
-    return -x + 0.5 * y
-
-
-def dz(x, y, z):
-    return x**2-z
-
-
-input_layer_size_0 = 3
-input_layer_size_1 = 6
-hidden_layer_size = 12
-
-if __name__ == '__main__':
-    learn_ds, valid_ds, test_ds = ds.GetDataSet((dx, dy, dz), 1500, learn_size=0.5, valid_size=0.5, test_size=0, h=0.1)
+def main():
+    learn_ds, valid_ds, test_ds = ds.GetDataSet((dx, dy, dz), ds_size, learn_size=learn_size, valid_size=valid_size,
+                                                test_size=test_size, h=h)
     v.ds_visual(learn_ds[:, 0], learn_ds[:, 1], learn_ds[:, 2])
 
-    mlp0 = NN.MLP(input_layer_size_0, hidden_layer_size, alpha=0.05, Em=0.05)
-    mlp1 = NN.MLP(input_layer_size_1, hidden_layer_size, alpha=0.05, Em=0.05)
+    mlp0 = NN.MLP(input_layer_size_0, hidden_layer_size_0, alpha=alpha_0, Em=Em_0)
+    mlp1 = NN.MLP(input_layer_size_1, hidden_layer_size_1, alpha=alpha_1, Em=Em_1)
 
     mlp0.fit(learn_ds)
     mlp1.fit(learn_ds)
@@ -57,3 +43,7 @@ if __name__ == '__main__':
         answers.append(mlp0.predict(answers[-1]))
 
     v.cascade_visual(valid_ds[int(input_layer_size_0 / 3):], answers)
+
+
+if __name__ == '__main__':
+    main()
